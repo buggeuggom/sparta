@@ -12,10 +12,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -39,15 +37,19 @@ public class Product {
   @JoinColumn(name = "category_id")
   Category category;
 
+  @Setter
   @Column(nullable = false)
   String name;
 
+  @Setter
   @Column(columnDefinition = "TEXT")
   String description;
 
+  @Setter
   @Column(nullable = false)
   BigDecimal price;
 
+  @Setter
   @Column(nullable = false)
   Integer stock;
 

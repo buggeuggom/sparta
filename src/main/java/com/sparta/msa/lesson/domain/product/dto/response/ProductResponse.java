@@ -1,8 +1,11 @@
 package com.sparta.msa.lesson.domain.product.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,22 +13,22 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductResponse {
 
-  Long id;
+    Long id;
 
-  Long categoryId;
+    Long categoryId;
 
-  String name;
+    String name;
 
-  String description;
+    String description;
 
-  BigDecimal price;
+    BigDecimal price;
 
-  Integer stock;
+    Integer stock;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-  LocalDateTime createdAt;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime createdAt;
 }

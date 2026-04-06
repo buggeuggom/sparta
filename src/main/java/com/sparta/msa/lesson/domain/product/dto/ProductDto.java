@@ -1,19 +1,24 @@
-package com.sparta.msa.lesson.domain.user.dto.response;
+package com.sparta.msa.lesson.domain.product.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Getter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
+public class ProductDto {
 
-    Long id;
+    Long categoryId;
 
     String name;
 
-    String email;
+    String description;
 
+    BigDecimal price;
+
+    Integer stock;
 }
