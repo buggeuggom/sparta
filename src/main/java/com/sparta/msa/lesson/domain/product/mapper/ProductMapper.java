@@ -1,6 +1,5 @@
 package com.sparta.msa.lesson.domain.product.mapper;
 
-import com.sparta.msa.lesson.domain.product.dto.ProductDto;
 import com.sparta.msa.lesson.domain.product.dto.request.ProductRequest;
 import com.sparta.msa.lesson.domain.product.dto.response.ProductResponse;
 import com.sparta.msa.lesson.domain.product.entity.Product;

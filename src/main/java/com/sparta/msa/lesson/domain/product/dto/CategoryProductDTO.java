@@ -7,20 +7,23 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 
-
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductDto {
+public class CategoryProductDTO {
 
-    String name;
+    String categoryName;
+
+    String productName;
 
     BigDecimal price;
 
     Integer stock;
 
-    @QueryProjection // QueryDSL은 이 생성자를 보고 QProductDTO를 생성합니다.
-    public ProductDto(String name, BigDecimal price, Integer stock) {
-        this.name = name;
+    @QueryProjection
+    public CategoryProductDTO(String categoryName, String productName, BigDecimal price,
+                              Integer stock) {
+        this.categoryName = categoryName;
+        this.productName = productName;
         this.price = price;
         this.stock = stock;
     }
