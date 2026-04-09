@@ -1,6 +1,6 @@
 package com.sparta.msa.lesson.domain.ai.service;
 
-import com.sparta.msa.lesson.domain.ai.dto.request.ContextChatResponse;
+import com.sparta.msa.lesson.domain.ai.dto.response.ContextChatResponse;
 import com.sparta.msa.lesson.global.exception.DomainException;
 import com.sparta.msa.lesson.global.exception.DomainExceptionCode;
 import lombok.RequiredArgsConstructor;

@@ -1,15 +1,21 @@
 package com.sparta.msa.lesson.domain.ai.controller;
 
 import com.sparta.msa.lesson.domain.ai.dto.request.ContextChatRequest;
-import com.sparta.msa.lesson.domain.ai.dto.request.ContextChatResponse;
+import com.sparta.msa.lesson.domain.ai.dto.response.ContextChatResponse;
+import com.sparta.msa.lesson.domain.ai.dto.response.ImageAnalysisResponse;
 import com.sparta.msa.lesson.domain.ai.service.GeminiChatService;
+import com.sparta.msa.lesson.domain.ai.service.PersistentChatService;
+import com.sparta.msa.lesson.domain.ai.service.VisionChatService;
 import com.sparta.msa.lesson.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
+
+import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -18,6 +24,8 @@ import reactor.core.publisher.Flux;
 public class GeminiChatController {
 
     private final GeminiChatService chatService;
+    private final PersistentChatService persistentChatService;
+    private final VisionChatService visionChatService;
 
     // 단발성 채팅 (히스토리 없음) 맥락 유지 없이 일회성 질문에 대한 답변을 제공합니다.
     @PostMapping("/simple")
@@ -29,7 +37,7 @@ public class GeminiChatController {
     @PostMapping
     public ApiResponse<ContextChatResponse> chat(@RequestBody ContextChatRequest request) {
         return ApiResponse.ok(
-                chatService.chatWithHistory(request.getMessage(), request.getConversationId()));
+                persistentChatService.chat(request.getConversationId(), request.getMessage()));
     }
 
     // 스트리밍 채팅 (Server-Sent Events) 답변이 생성되는 대로 실시간으로 클라이언트에 전송합니다.
@@ -44,6 +52,13 @@ public class GeminiChatController {
     public ApiResponse<Void> deleteAllConversations() {
         chatService.clearAll();
         return ApiResponse.ok();
+    }
+
+    @PostMapping(value = "/analyze", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<ImageAnalysisResponse> analyzeImage(
+            @RequestParam String message,
+            @RequestParam MultipartFile image) throws IOException {
+        return ApiResponse.ok(visionChatService.analyzeImage(message, image));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.sparta.msa.lesson.domain.ai.dto.request;
+package com.sparta.msa.lesson.domain.ai.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
