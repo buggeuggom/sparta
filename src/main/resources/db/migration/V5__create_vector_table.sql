@@ -1,3 +1,5 @@
+-- 벡터 기능을 이 데이터베이스에서 활성화합니다.
+CREATE EXTENSION IF NOT EXISTS vector;
 -- [Step 1] 원본 문서 관리 테이블
 CREATE TABLE vector_documents
 (
