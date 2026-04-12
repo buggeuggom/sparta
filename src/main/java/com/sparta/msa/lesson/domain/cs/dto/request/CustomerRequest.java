@@ -1,4 +1,4 @@
-package com.sparta.msa.lesson.domain.function.dto.request;
+package com.sparta.msa.lesson.domain.cs.dto.request;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,8 +8,9 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class WeatherRequest {
+public class CustomerRequest {
 
-    private String city;
+    String customerId;
+    String message;
 
 }

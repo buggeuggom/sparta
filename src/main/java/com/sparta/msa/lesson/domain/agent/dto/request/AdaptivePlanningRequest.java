@@ -1,4 +1,5 @@
-package com.sparta.msa.lesson.domain.function.dto.request;
+package com.sparta.msa.lesson.domain.agent.dto.request;
+
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,8 +9,9 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class WeatherRequest {
+public class AdaptivePlanningRequest {
 
-    private String city;
+    String goal;
+    int maxReplanning = 3;
 
 }
