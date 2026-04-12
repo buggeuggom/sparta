@@ -25,54 +25,52 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/categories")
 public class CategoryController {
 
-  private final JsonUtil jsonUtil;
-  private final CategoryService categoryService;
+    private final CategoryService categoryService;
 
-  @GetMapping
-  public ApiResponse<List<CategoryResponse>> findAll(HttpSession httpSession) {
-
-    return ApiResponse.ok(categoryService.findAll());
-  }
-
-  @GetMapping("/caches")
-  public ApiResponse<List<CategoryResponse>> findAllByCaches(HttpSession httpSession) {
-    final String CATEGORY_CACHE_KEY = "cachedCategoriesJson";
-
-    String cachedCategoriesJson = (String) httpSession.getAttribute(CATEGORY_CACHE_KEY);
-
-    if (cachedCategoriesJson == null) {
-      List<CategoryResponse> freshCategories = categoryService.findAll();
-      httpSession.setAttribute(CATEGORY_CACHE_KEY, JsonUtil.toJson(freshCategories));
-
-      return ApiResponse.ok(freshCategories);
-    } else {
-      List<CategoryResponse> cachedCategories = JsonUtil.fromJsonList(
-          cachedCategoriesJson, CategoryResponse.class
-      );
-      return ApiResponse.ok(cachedCategories);
+    @GetMapping
+    public ApiResponse<List<CategoryResponse>> findAll() {
+        return ApiResponse.ok(categoryService.findAllForCacheAside());
     }
-  }
 
-  @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  public ApiResponse<Void> create(@Valid @RequestBody CategoryRequest request) {
-    categoryService.create(request);
-    return ApiResponse.ok();
-  }
+    @GetMapping("/caches")
+    public ApiResponse<List<CategoryResponse>> findAllByCaches(HttpSession httpSession) {
+        final String CATEGORY_CACHE_KEY = "cachedCategoriesJson";
 
-  @PutMapping("/{categoryId}")
-  public ApiResponse<Void> update(@PathVariable Long categoryId,
-      @Valid @RequestBody CategoryRequest request) {
-    categoryService.update(categoryId, request);
-    return ApiResponse.ok();
-  }
+        String cachedCategoriesJson = (String) httpSession.getAttribute(CATEGORY_CACHE_KEY);
 
-  @DeleteMapping("/{categoryId}")
-  @ResponseStatus(HttpStatus.NO_CONTENT)
-  public ApiResponse<Void> delete(@PathVariable Long categoryId) {
-    categoryService.deleteById(categoryId);
-    return ApiResponse.ok();
-  }
+        if (cachedCategoriesJson == null) {
+            List<CategoryResponse> freshCategories = categoryService.findAll();
+            httpSession.setAttribute(CATEGORY_CACHE_KEY, JsonUtil.toJson(freshCategories));
+
+            return ApiResponse.ok(freshCategories);
+        } else {
+            List<CategoryResponse> cachedCategories = JsonUtil.fromJsonList(
+                    cachedCategoriesJson, CategoryResponse.class
+            );
+            return ApiResponse.ok(cachedCategories);
+        }
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<Void> create(@Valid @RequestBody CategoryRequest request) {
+        categoryService.saveWriteBack(request);
+        return ApiResponse.ok();
+    }
+
+    @PutMapping("/{categoryId}")
+    public ApiResponse<Void> update(@PathVariable Long categoryId,
+                                    @Valid @RequestBody CategoryRequest request) {
+        categoryService.update(categoryId, request);
+        return ApiResponse.ok();
+    }
+
+    @DeleteMapping("/{categoryId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ApiResponse<Void> delete(@PathVariable Long categoryId) {
+        categoryService.deleteById(categoryId);
+        return ApiResponse.ok();
+    }
 
 
 }
