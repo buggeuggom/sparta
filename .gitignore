@@ -17,9 +17,9 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
-.env
+sparta-part-1&2/.env
 ### IntelliJ IDEA ###
-.idea
+sparta-part-1&2/.idea
 *.iws
 *.iml
 *.ipr
